@@ -1,67 +1,93 @@
-# Payload Blank Template
+# Myxellia Figma take home test
 
-This template comes configured with the bare minimum to get started on anything you need.
+Myxellia Front End Engineer Figma take home assessment test
 
-## Quick start
+## Table of contents
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+  - [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Continued development](#continued-development)
+  - [Useful resources](#useful-resources)
+  - [Author](#author)
+  - [Acknowledgments](#acknowledgments)
 
-## Quick Start - local setup
+## Overview
 
-To spin up this template locally, follow these steps:
+### The Challenge/User Stories
 
-### Clone
+This project is a technical assessment designed to test the ability to translate a provided Figma design
+ into a fully functional web application. The goal is to accurately implement the UI while meeting core requirements such as responsiveness, clean code structure, and deployment.
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+Candidates are expected to submit a live deployment (Vercel), provide access to the GitHub repository for code review, and share their resume or portfolio. Successful completion of this challenge, with a focus on code quality and attention to design details, will result in feedback and a strong chance of an offer (90% if requirements are met).
 
-### Development
+### Screenshot
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URI` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+![](/public/screenshot-desktop.png)
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+### Links
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+- Solution URL: [https://github.com/traez/myxellia-figma](https://github.com/traez/myxellia-figma)
+- Live Site URL: [https://myxellia-figma.vercel.app/](https://myxellia-figma.vercel.app/)
 
-#### Docker (Optional)
+## My process
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+### Built with
 
-To do so, follow these steps:
+- Semantic HTML5 markup
+- CSS custom properties
+- Flexbox and CSS Grid
+- Mobile-first workflow
+- [React](https://reactjs.org/) - JS library
+- [Next.js](https://nextjs.org/) - React framework
+- Typescript
+- Nodejs
+- Tailwind CSS
+- ShadCN  
+- @radix-ui  
+- class-variance-authority  
+- clsx  
+- lucide-react  
+- tailwind-merge    
+- react-icons     
+- chart.js     
+- react-chartjs-2     
 
-- Modify the `MONGODB_URI` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URI` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+### What I learned
 
-## How it works
+**1 Styling shadcn/ui Dialog Close Button**  
+## 
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+```typescriptreact
+<DialogContent className="[&>button]:text-white">
+```
 
-### Collections
+**Key Learning:** This CSS selector `[&>button]:text-white` means "apply `text-white` to any direct `<button>` child inside `DialogContent`," which includes the default close X button.
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+**Why this works:** This technique works across all shadcn/ui components (Sheet, Dialog, Popover, etc.) because they are built on Radix Primitives, which render actual DOM elements under the hood. The `&` represents the parent element (DialogContent), and `>button` targets direct button children.
 
-- #### Users (Authentication)
+**Use cases:** Apply this pattern whenever you need to style default buttons or icons within shadcn/ui overlay components without creating custom components.
 
-  Users are auth-enabled collections that have access to the admin panel.
+### Continued development
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+- More projects; increased competence!
 
-- #### Media
+### Useful resources
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+Stackoverflow  
+YouTube  
+Google  
+ChatGPT
 
-### Docker
+## Author
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+- Website - [Zeeofor Technologies](https://zeeofor.tech)
+- Twitter - [@trae_z](https://twitter.com/trae_z)
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+## Acknowledgments
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
-
-## Questions
-
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+-Jehovah that keeps breath in my lungs
