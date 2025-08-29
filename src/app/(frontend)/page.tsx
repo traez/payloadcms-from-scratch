@@ -27,8 +27,16 @@ export default async function HomePage() {
             width={65}
           />
         </picture>
-        {!user && <h1>Trae Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
+        {!user && (
+          <h1>
+            <span className="bg-green-300">Trae</span> Welcome to your new project.
+          </h1>
+        )}
+        {user && (
+          <h1>
+            Welcome <span className="bg-green-300">back</span>, {user.email}
+          </h1>
+        )}
         <div className="links">
           <a
             className="admin"
