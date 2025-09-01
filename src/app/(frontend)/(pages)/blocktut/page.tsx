@@ -2,18 +2,18 @@ import { getPayload } from 'payload'
 import React from 'react'
 import config from '@/payload.config'
 import { Page } from '@/payload-types'
-import HeroBlock from '@/components/payload/HeroBlock'
-import ContentBlock from '@/components/payload/ContentBlock'
-import NewsletterBlock from '@/components/payload/NewsletterBlock'
+import HeroBC from '@/components/payload/HeroBC'
+import ContentBC from '@/components/payload/ContentBC'
+import NewsletterFormBC from '@/components/payload/NewsletterFormBC'
 
 const renderBlock = (block: Page['layout'][0]) => {
   switch (block.blockType) {
     case 'hero':
-      return <HeroBlock block={block} key={block.id} />
+      return <HeroBC block={block} key={block.id} />
     case 'content':
-      return <ContentBlock block={block} key={block.id} />
+      return <ContentBC block={block} key={block.id} />
     case 'newsletter-form':
-      return <NewsletterBlock block={block} key={block.id} />
+      return <NewsletterFormBC block={block} key={block.id} />
     default:
       return null
   }

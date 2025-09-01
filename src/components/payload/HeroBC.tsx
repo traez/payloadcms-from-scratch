@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 type HeroProps = Extract<Page['layout'][0], { blockType: 'hero' }>
 
-export default function HeroBlock({ block }: { block: HeroProps }) {
+export default function HeroBC({ block }: { block: HeroProps }) {
   return (
     <div className="flex flex-col items-center border border-red-500 p-5">
       <h1 className="text-4xl font-bold">{block.heading}</h1>

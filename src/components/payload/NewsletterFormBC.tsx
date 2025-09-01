@@ -29,7 +29,7 @@ type InputFormField = Extract<
   }
 >
 
-export default function NewsletterBlock({ block }: { block: NewsletterProps }) {
+export default function NewsletterFormBC({ block }: { block: NewsletterProps }) {
   const [formState, setFormState] = useState<FormState>({
     loading: false,
     error: null,
