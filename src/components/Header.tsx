@@ -17,7 +17,7 @@ export default function Header() {
   const navLinks = [
     { label: 'Admin', href: '/admin' },
     { label: 'BlockTut', href: '/blocktut' },
-    { label: 'Radix UI', href: '#' },
+    { label: 'FormTut', href: '/formtut' },
   ]
 
   return (
