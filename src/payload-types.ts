@@ -93,10 +93,10 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
-    footer: Footer;
+    bottom: Bottom;
   };
   globalsSelect: {
-    footer: FooterSelect<false> | FooterSelect<true>;
+    bottom: BottomSelect<false> | BottomSelect<true>;
   };
   locale: null;
   user: User & {
@@ -804,19 +804,21 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "footer".
+ * via the `definition` "bottom".
  */
-export interface Footer {
+export interface Bottom {
   id: number;
+  text: string;
   logo?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "footer_select".
+ * via the `definition` "bottom_select".
  */
-export interface FooterSelect<T extends boolean = true> {
+export interface BottomSelect<T extends boolean = true> {
+  text?: T;
   logo?: T;
   updatedAt?: T;
   createdAt?: T;
