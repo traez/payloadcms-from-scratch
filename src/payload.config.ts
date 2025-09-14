@@ -1,4 +1,4 @@
-//src\payload.config.ts
+//src\payload.config.ts 
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
@@ -23,6 +23,20 @@ export default buildConfig({
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    components: {
+      beforeLogin: ['@/components/payload/BeforeLogin.tsx'],
+      graphics: {
+        Icon: '@/components/payload/Icon.tsx',
+        Logo: '@/components/payload/Logo.tsx',
+      },
+    },
+    meta: {
+      defaultOGImageType: 'static',
+      icons: [{ rel: 'icon', type: 'image/svg', url: '/favicon2.ico' }],
+      title: 'Payload From Scratch',
+      titleSuffix: 'PayloadCMS',
+      description: 'PayloadCMS SandBox App Created by Trae Zeeofor',
     },
   },
   collections: [Users, Media, Posts, Pages],
