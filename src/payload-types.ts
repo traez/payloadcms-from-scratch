@@ -176,6 +176,26 @@ export interface Media {
 export interface Post {
   id: number;
   title: string;
+  slug?: string | null;
+  /**
+   * A short summary or teaser (max 200 characters)
+   */
+  excerpt?: string | null;
+  /**
+   * Simple text tags for filtering
+   */
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  published?: boolean | null;
+  publishedAt?: string | null;
+  author: {
+    firstName: string;
+    lastName: string;
+  };
   content: {
     root: {
       type: string;
@@ -191,6 +211,25 @@ export interface Post {
     };
     [k: string]: unknown;
   };
+  /**
+   * Upload one or more images related to this post
+   */
+  images?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Paste YouTube video links to embed
+   */
+  videos?:
+    | {
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -572,7 +611,36 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  slug?: T;
+  excerpt?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  published?: T;
+  publishedAt?: T;
+  author?:
+    | T
+    | {
+        firstName?: T;
+        lastName?: T;
+      };
   content?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  videos?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

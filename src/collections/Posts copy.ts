@@ -2,6 +2,7 @@ import type { CollectionConfig, CollectionBeforeValidateHook } from 'payload'
 import { admin } from '@/access/admin'
 import { editor } from '@/access/editor'
 
+// Slug helper
 const slugify = (s: string) =>
   s
     .toLowerCase()
@@ -84,7 +85,7 @@ export const Posts: CollectionConfig = {
     {
       name: 'excerpt',
       type: 'textarea',
-      maxLength: 200,
+      maxLength: 200, // limit to 200 characters
       admin: {
         description: 'A short summary or teaser (max 200 characters)',
       },
@@ -100,13 +101,13 @@ export const Posts: CollectionConfig = {
     {
       name: 'published',
       type: 'checkbox',
-      defaultValue: false,
+      defaultValue: false, // default to draft
       admin: { position: 'sidebar' },
     },
     {
       name: 'publishedAt',
       type: 'date',
-      defaultValue: undefined,
+      defaultValue: undefined, // will be set by hook if published
       admin: {
         position: 'sidebar',
         date: {
@@ -135,44 +136,6 @@ export const Posts: CollectionConfig = {
       name: 'content',
       type: 'richText',
       required: true,
-    },
-    // 👇 New: images (upload from Media)
-    {
-      name: 'images',
-      type: 'array',
-      label: 'Images',
-      labels: { singular: 'Image', plural: 'Images' },
-      admin: { description: 'Upload one or more images related to this post' },
-      fields: [
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          required: true,
-        },
-        {
-          name: 'caption',
-          type: 'text',
-        },
-      ],
-    },
-    // 👇 New: YouTube embeds
-    {
-      name: 'videos',
-      type: 'array',
-      label: 'YouTube Videos',
-      labels: { singular: 'Video', plural: 'Videos' },
-      admin: { description: 'Paste YouTube video links to embed' },
-      fields: [
-        {
-          name: 'url',
-          type: 'text',
-          required: true,
-          admin: {
-            placeholder: 'https://www.youtube.com/watch?v=abc123',
-          },
-        },
-      ],
     },
   ],
   hooks: {
