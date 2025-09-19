@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
-import { Hero } from '@/blocks/Hero'
-import { Content } from '@/blocks/Content'
-import { NewsletterForm } from '@/blocks/NewsletterForm'
+import { HeroBlock } from '@/blocks/HeroBlock'
+import { ContentBlock } from '@/blocks/ContentBlock'
+import { NewsletterFormBlock } from '@/blocks/NewsletterFormBlock'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -20,7 +20,7 @@ export const Pages: CollectionConfig = {
       name: 'layout',
       type: 'blocks',
       required: true,
-      blocks: [Hero, Content, NewsletterForm],
+      blocks: [HeroBlock, ContentBlock, NewsletterFormBlock],
     },
   ],
 }

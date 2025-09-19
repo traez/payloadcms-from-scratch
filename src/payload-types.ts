@@ -211,25 +211,6 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  /**
-   * Upload one or more images related to this post
-   */
-  images?:
-    | {
-        image: number | Media;
-        caption?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Paste YouTube video links to embed
-   */
-  videos?:
-    | {
-        url: string;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -628,19 +609,6 @@ export interface PostsSelect<T extends boolean = true> {
         lastName?: T;
       };
   content?: T;
-  images?:
-    | T
-    | {
-        image?: T;
-        caption?: T;
-        id?: T;
-      };
-  videos?:
-    | T
-    | {
-        url?: T;
-        id?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }

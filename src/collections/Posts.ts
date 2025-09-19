@@ -1,6 +1,9 @@
 import type { CollectionConfig, CollectionBeforeValidateHook } from 'payload'
+import { lexicalEditor, BlocksFeature } from '@payloadcms/richtext-lexical'
 import { admin } from '@/access/admin'
 import { editor } from '@/access/editor'
+import { ImageBlock } from '@/blocks/ImageBlock'
+import { VideoBlock } from '@/blocks/VideoBlock'
 
 const slugify = (s: string) =>
   s
@@ -135,44 +138,14 @@ export const Posts: CollectionConfig = {
       name: 'content',
       type: 'richText',
       required: true,
-    },
-    // 👇 New: images (upload from Media)
-    {
-      name: 'images',
-      type: 'array',
-      label: 'Images',
-      labels: { singular: 'Image', plural: 'Images' },
-      admin: { description: 'Upload one or more images related to this post' },
-      fields: [
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          required: true,
-        },
-        {
-          name: 'caption',
-          type: 'text',
-        },
-      ],
-    },
-    // 👇 New: YouTube embeds
-    {
-      name: 'videos',
-      type: 'array',
-      label: 'YouTube Videos',
-      labels: { singular: 'Video', plural: 'Videos' },
-      admin: { description: 'Paste YouTube video links to embed' },
-      fields: [
-        {
-          name: 'url',
-          type: 'text',
-          required: true,
-          admin: {
-            placeholder: 'https://www.youtube.com/watch?v=abc123',
-          },
-        },
-      ],
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [
+          ...defaultFeatures,
+          BlocksFeature({
+            blocks: [ImageBlock, VideoBlock],
+          }),
+        ],
+      }),
     },
   ],
   hooks: {

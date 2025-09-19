@@ -1,6 +1,6 @@
 import { Block } from 'payload'
 
-export const NewsletterForm: Block = {
+export const NewsletterFormBlock: Block = {
   slug: 'newsletter-form',
   fields: [
     {
