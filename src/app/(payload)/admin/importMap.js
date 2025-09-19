@@ -22,9 +22,9 @@ import { BlockquoteFeatureClient as BlockquoteFeatureClient_e70f5e05f09f93e00b99
 import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { InlineToolbarFeatureClient as InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { default as default_fca9e54a1eef5aa648f310bc2c9326a3 } from '@/components/payload/Icon.tsx'
-import { default as default_4ee76b190b437194f18d37289986e48a } from '@/components/payload/Logo.tsx'
-import { default as default_0409ca41f96513e90e4b9049addbab2c } from '@/components/payload/BeforeLogin.tsx'
+import { default as default_6f14b747d7d9d385f91171711bbf7132 } from '@/components/payload/Icon'
+import { default as default_e34c28bdc97e3fecf976b23b26d64cc9 } from '@/components/payload/Logo'
+import { default as default_be7cf7eb3883beb9807d8789bb1dd363 } from '@/components/payload/BeforeLogin'
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
 
 export const importMap = {
@@ -52,8 +52,8 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#InlineToolbarFeatureClient": InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/components/payload/Icon.tsx#default": default_fca9e54a1eef5aa648f310bc2c9326a3,
-  "@/components/payload/Logo.tsx#default": default_4ee76b190b437194f18d37289986e48a,
-  "@/components/payload/BeforeLogin.tsx#default": default_0409ca41f96513e90e4b9049addbab2c,
+  "@/components/payload/Icon#default": default_6f14b747d7d9d385f91171711bbf7132,
+  "@/components/payload/Logo#default": default_e34c28bdc97e3fecf976b23b26d64cc9,
+  "@/components/payload/BeforeLogin#default": default_be7cf7eb3883beb9807d8789bb1dd363,
   "@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler": VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e
 }

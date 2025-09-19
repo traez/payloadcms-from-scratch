@@ -25,10 +25,10 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     components: {
-      beforeLogin: ['@/components/payload/BeforeLogin'],
+      beforeLogin: ['@/components/payload/BeforeLogin.tsx'],
       graphics: {
-        Icon: '@/components/payload/Icon',
-        Logo: '@/components/payload/Logo',
+        Icon: '@/components/payload/Icon.tsx',
+        Logo: '@/components/payload/Logo.tsx',
       },
     },
     meta: {
