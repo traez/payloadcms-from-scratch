@@ -8,7 +8,7 @@ export default async function Blogpage() {
   const payload = await getPayload({ config })
   const { user } = await payload.auth({ headers })
 
-  console.log(user);
+  console.log(user)
 
   // Fetch 10 most recent published posts
   const { docs: posts } = await payload.find({
@@ -30,11 +30,37 @@ export default async function Blogpage() {
         {posts.map((post) => (
           <li key={post.id} className="p-4 border rounded-xl shadow-sm hover:shadow-md transition">
             <h2 className="text-2xl font-semibold mb-2">{post.title}</h2>
+
             {post.excerpt && <p className="text-gray-700 mb-3">{post.excerpt}</p>}
-            <p className="text-sm text-gray-500">
+
+            <p className="text-sm text-gray-500 mb-1">
               Published:{' '}
-              {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Unpublished'}
+              {post.publishedAt
+                ? new Date(post.publishedAt)
+                    .toLocaleDateString('en-GB', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric',
+                    })
+                    .replace(/ /g, '/')
+                : 'Unpublished'}
             </p>
+
+            {/* Author */}
+            {post.author && (
+              <p className="text-sm text-gray-600 mb-1 capitalize">
+                By {post.author.firstName} {post.author.lastName}
+              </p>
+            )}
+
+            {/* Tags */}
+            {Array.isArray(post.tags) && post.tags.length > 0 && (
+              <div className="text-sm text-gray-500">
+                {post.tags?.length ? (
+                  <p>Tags: {post.tags.map((t) => t?.tag ?? 'untitled').join(', ')}</p>
+                ) : null}
+              </div>
+            )}
           </li>
         ))}
       </ul>
