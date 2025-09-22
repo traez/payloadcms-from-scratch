@@ -35,7 +35,7 @@ export default buildConfig({
       defaultOGImageType: 'static',
       icons: [{ rel: 'icon', type: 'image/svg', url: '/favicon2.ico' }],
       title: 'Payload From Scratch',
-      titleSuffix: 'PayloadCMS',
+      titleSuffix: ': Admin - Payload From Scratch',
       description: 'PayloadCMS SandBox App Created by Trae Zeeofor',
     },
   },
