@@ -7,12 +7,15 @@ import { Post } from '@/payload-types'
 import RichTextRenderer from '@/components/blog/RichTextRenderer'
 
 interface BlogSlugPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
+  // Await the params
+  const { slug } = await params
+
   const headers = await getHeaders()
   const payload = await getPayload({ config })
   const { user } = await payload.auth({ headers })
@@ -23,7 +26,7 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
   const res = await payload.find({
     collection: 'posts',
     where: {
-      slug: { equals: params.slug },
+      slug: { equals: slug },
       published: { equals: true },
     },
     depth: 2, // Ensure uploads and related data are fully populated
@@ -107,12 +110,15 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: BlogSlugPageProps) {
+  // Await the params here too
+  const { slug } = await params
+
   const payload = await getPayload({ config })
 
   const res = await payload.find({
     collection: 'posts',
     where: {
-      slug: { equals: params.slug },
+      slug: { equals: slug },
       published: { equals: true },
     },
     limit: 1,
@@ -129,7 +135,7 @@ export async function generateMetadata({ params }: BlogSlugPageProps) {
   return {
     title: `${post.title}: Blog - Payload From Scratch`,
     description:
-      post.excerpt || `Read ${post.title} by ${post.author?.firstName} ${post.author?.lastName}`,
+      post.excerpt || `Read ${post.title} by ${post.author?.firstName} ${post.author.lastName}`,
     authors: post.author
       ? [
           {
