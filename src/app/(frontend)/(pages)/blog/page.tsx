@@ -16,3 +16,5 @@ export default async function Blogpage() {
 
   return <PostsList initialPosts={res.docs} initialPage={res.page!} totalPages={res.totalPages!} />
 }
+
+/* Code in this page preloads first page server-side for faster initial render and better SEO. With Client-side pagination still works in PostsList for subsequent pages. */

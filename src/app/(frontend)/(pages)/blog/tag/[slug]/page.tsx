@@ -16,7 +16,7 @@ export default async function TagSlugpage({ params }: TagSlugPageProps) {
 
   const payload = await getPayload({ config })
 
-  // Decode the slug in case it has special characters
+  // Decode the slug in case it has special characters eg ("web%20dev") becomes "web dev"
   const decodedTag = decodeURIComponent(slug)
 
   // Fetch posts with the specific tag
@@ -48,6 +48,7 @@ export default async function TagSlugpage({ params }: TagSlugPageProps) {
       initialPosts={res.docs}
       initialPage={res.page!}
       totalPages={res.totalPages!}
+      totalPosts={res.totalDocs}
       tag={decodedTag}
     />
   )

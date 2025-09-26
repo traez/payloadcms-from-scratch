@@ -9,11 +9,13 @@ export default function TagPostsList({
   initialPosts,
   initialPage,
   totalPages,
+  totalPosts,
   tag,
 }: {
   initialPosts: Post[]
   initialPage: number
   totalPages: number
+  totalPosts: number
   tag: string
 }) {
   const [page, setPage] = useState(initialPage)
@@ -48,9 +50,10 @@ export default function TagPostsList({
       <div className="text-4xl font-bold mb-6 flex items-center justify-between">
         <div>
           <h1>Posts tagged: &quot;{tag}&quot;</h1>
+
           <p className="text-lg font-normal text-gray-600 mt-2">
-            {currentPosts.length > 0
-              ? `${currentPosts.length} post${currentPosts.length !== 1 ? 's' : ''} found`
+            {totalPosts > 0
+              ? `${totalPosts} post${totalPosts !== 1 ? 's' : ''} found`
               : 'No posts found'}
           </p>
         </div>
