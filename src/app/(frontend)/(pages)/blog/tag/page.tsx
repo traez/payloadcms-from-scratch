@@ -1,8 +1,7 @@
 // src/app/(frontend)/(pages)/blog/tag/page.tsx - Updated version
 import type { Metadata } from 'next'
-import { getPayload } from 'payload'
-import config from '@/payload.config'
 import Link from 'next/link'
+import { getSortedTags } from '@/lib/getSortedTags'
 
 export const metadata: Metadata = {
   description: 'Browse all blog post tags - Created by Trae Zeeofor',
@@ -10,29 +9,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Tagpage() {
-  const payload = await getPayload({ config })
-
-  // Fetch only published posts
-  const res = await payload.find({
-    collection: 'posts',
-    limit: 1000, // adjust depending on your expected volume
-    where: { published: { equals: true } },
-  })
-
-  // Collect tags from posts with their post counts
-  const tagCounts = res.docs
-    .flatMap((post) => post.tags?.map((t) => t?.tag).filter(Boolean) || [])
-    .filter((tag): tag is string => !!tag)
-    .reduce(
-      (acc, tag) => {
-        acc[tag] = (acc[tag] || 0) + 1
-        return acc
-      },
-      {} as Record<string, number>,
-    )
-
-  // Sort tags alphabetically
-  const sortedTags = Object.entries(tagCounts).sort(([a], [b]) => a.localeCompare(b))
+  const sortedTags = await getSortedTags()
 
   return (
     <article className="space-y-6 w-full">

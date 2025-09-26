@@ -2,7 +2,7 @@
 import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 import config from '@/payload.config'
-import TagPostsList from '@/components/blog/TagPostsList'
+import TagPostsList from '@/components/blog/tag/TagPostsList'
 
 interface TagSlugPageProps {
   params: Promise<{

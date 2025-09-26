@@ -1,4 +1,4 @@
-// src/components/blog/TagPostsList.tsx
+// src\components\blog\tag\TagPostsList.tsx
 'use client'
 import Link from 'next/link'
 import { Post } from '@/payload-types'
