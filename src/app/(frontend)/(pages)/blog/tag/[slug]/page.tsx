@@ -1,6 +1,5 @@
 // src/app/(frontend)/(pages)/blog/tag/[slug]/page.tsx
 import { getPayload } from 'payload'
-import { headers as getHeaders } from 'next/headers'
 import { notFound } from 'next/navigation'
 import config from '@/payload.config'
 import TagPostsList from '@/components/blog/TagPostsList'
@@ -15,11 +14,7 @@ export default async function TagSlugpage({ params }: TagSlugPageProps) {
   // Await the params
   const { slug } = await params
 
-  const headers = await getHeaders()
   const payload = await getPayload({ config })
-  const { user } = await payload.auth({ headers })
-
-  console.log(user)
 
   // Decode the slug in case it has special characters
   const decodedTag = decodeURIComponent(slug)

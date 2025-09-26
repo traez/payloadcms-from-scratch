@@ -2,7 +2,6 @@
 import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
-import { headers as getHeaders } from 'next/headers'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
@@ -11,11 +10,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Tagpage() {
-  const headers = await getHeaders()
   const payload = await getPayload({ config })
-  const { user } = await payload.auth({ headers })
-
-  console.log(user)
 
   // Fetch only published posts
   const res = await payload.find({

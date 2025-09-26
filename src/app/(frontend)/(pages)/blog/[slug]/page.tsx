@@ -1,6 +1,5 @@
 // src/app/(frontend)/(pages)/blog/[slug]/page.tsx
 import { getPayload } from 'payload'
-import { headers as getHeaders } from 'next/headers'
 import { notFound } from 'next/navigation'
 import config from '@/payload.config'
 import { Post } from '@/payload-types'
@@ -16,11 +15,7 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
   // Await the params
   const { slug } = await params
 
-  const headers = await getHeaders()
   const payload = await getPayload({ config })
-  const { user } = await payload.auth({ headers })
-
-  console.log(user)
 
   // Fetch the specific post by slug
   const res = await payload.find({
