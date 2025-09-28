@@ -5,6 +5,70 @@ import { Post } from '@/payload-types'
 import { useState } from 'react'
 import { fetchPostsByTag } from '@/lib/actions'
 
+interface PaginationProps {
+  hasPrevPage: boolean
+  hasNextPage: boolean
+  prevPageNum: number | null
+  nextPageNum: number | null
+  loadingPrev: boolean
+  loadingNext: boolean
+  onGoToPage: (targetPage: number, type: 'prev' | 'next') => void
+  className?: string
+}
+
+function PaginationButtons({
+  hasPrevPage,
+  hasNextPage,
+  prevPageNum,
+  nextPageNum,
+  loadingPrev,
+  loadingNext,
+  onGoToPage,
+  className = '',
+}: PaginationProps) {
+  return (
+    <nav className={`flex gap-4 ${className}`}>
+      <button
+        onClick={() => prevPageNum && onGoToPage(prevPageNum, 'prev')}
+        disabled={!hasPrevPage || loadingPrev}
+        className={`cursor-pointer px-4 py-2 rounded text-white flex items-center justify-center min-w-[110px] ${
+          hasPrevPage && !loadingPrev
+            ? 'bg-gray-600 hover:bg-gray-700'
+            : 'bg-gray-300 cursor-not-allowed'
+        }`}
+      >
+        {loadingPrev ? (
+          <span className="flex items-center gap-2">
+            <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            Loading...
+          </span>
+        ) : (
+          'Prev Page'
+        )}
+      </button>
+
+      <button
+        onClick={() => nextPageNum && onGoToPage(nextPageNum, 'next')}
+        disabled={!hasNextPage || loadingNext}
+        className={`cursor-pointer px-4 py-2 rounded text-white flex items-center justify-center min-w-[110px] ${
+          hasNextPage && !loadingNext
+            ? 'bg-blue-600 hover:bg-blue-700'
+            : 'bg-blue-300 cursor-not-allowed'
+        }`}
+      >
+        {loadingNext ? (
+          <span className="flex items-center gap-2">
+            <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+            Loading...
+          </span>
+        ) : (
+          'Next Page'
+        )}
+      </button>
+    </nav>
+  )
+}
+
 export default function TagPostsList({
   initialPosts,
   initialPage,
@@ -45,12 +109,22 @@ export default function TagPostsList({
     }
   }
 
+  const paginationProps = {
+    hasPrevPage,
+    hasNextPage,
+    prevPageNum,
+    nextPageNum,
+    loadingPrev,
+    loadingNext,
+    onGoToPage: goToPage,
+  }
+
   return (
     <article className="space-y-6 w-full">
+      {/* Header */}
       <div className="text-4xl font-bold mb-6 flex items-center justify-between">
         <div>
           <h1>Posts tagged: &quot;{tag}&quot;</h1>
-
           <p className="text-lg font-normal text-gray-600 mt-2">
             {totalPosts > 0
               ? `${totalPosts} post${totalPosts !== 1 ? 's' : ''} found`
@@ -74,6 +148,9 @@ export default function TagPostsList({
         <span>→</span>
         <span className="font-medium text-gray-800">{tag}</span>
       </nav>
+
+      {/* Top pagination */}
+      {totalPages > 1 && <PaginationButtons {...paginationProps} />}
 
       {currentPosts.length === 0 && (
         <div className="text-center py-12">
@@ -132,48 +209,8 @@ export default function TagPostsList({
         </Link>
       ))}
 
-      {/* Page buttons - only show if there are multiple pages */}
-      {totalPages > 1 && (
-        <div className="flex gap-4 mt-6">
-          <button
-            onClick={() => prevPageNum && goToPage(prevPageNum, 'prev')}
-            disabled={!hasPrevPage || loadingPrev}
-            className={`cursor-pointer px-4 py-2 rounded text-white flex items-center justify-center min-w-[110px] ${
-              hasPrevPage && !loadingPrev
-                ? 'bg-gray-600 hover:bg-gray-700'
-                : 'bg-gray-300 cursor-not-allowed'
-            }`}
-          >
-            {loadingPrev ? (
-              <span className="flex items-center gap-2">
-                <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                Loading...
-              </span>
-            ) : (
-              'Prev Page'
-            )}
-          </button>
-
-          <button
-            onClick={() => nextPageNum && goToPage(nextPageNum, 'next')}
-            disabled={!hasNextPage || loadingNext}
-            className={`cursor-pointer px-4 py-2 rounded text-white flex items-center justify-center min-w-[110px] ${
-              hasNextPage && !loadingNext
-                ? 'bg-blue-600 hover:bg-blue-700'
-                : 'bg-blue-300 cursor-not-allowed'
-            }`}
-          >
-            {loadingNext ? (
-              <span className="flex items-center gap-2">
-                <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                Loading...
-              </span>
-            ) : (
-              'Next Page'
-            )}
-          </button>
-        </div>
-      )}
+      {/* Bottom pagination */}
+      {totalPages > 1 && <PaginationButtons {...paginationProps} />}
 
       {/* Back to all tags link */}
       <div className="border-t pt-6 mt-8">
