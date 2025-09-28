@@ -72,10 +72,12 @@ export default function PostsList({
   initialPosts,
   initialPage,
   totalPages,
+  totalPosts,
 }: {
   initialPosts: Post[]
   initialPage: number
   totalPages: number
+  totalPosts: number
 }) {
   const [page, setPage] = useState(initialPage)
   const [currentPosts, setCurrentPosts] = useState<Post[]>(initialPosts)
@@ -123,6 +125,11 @@ export default function PostsList({
           Page {page} of {totalPages}
         </b>
       </div>
+      <p className="text-lg font-normal text-gray-600 mt-2">
+        {totalPosts > 0
+          ? `${totalPosts} post${totalPosts !== 1 ? 's' : ''} found`
+          : 'No posts found'}
+      </p>
       <PaginationButtons {...paginationProps} />
 
       {currentPosts.length === 0 && <p className="text-gray-600">No posts available.</p>}

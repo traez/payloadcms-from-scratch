@@ -14,7 +14,14 @@ export default async function Blogpage() {
     where: { published: { equals: true } },
   })
 
-  return <PostsList initialPosts={res.docs} initialPage={res.page!} totalPages={res.totalPages!} />
+  return (
+    <PostsList
+      initialPosts={res.docs}
+      initialPage={res.page!}
+      totalPages={res.totalPages!}
+      totalPosts={res.totalDocs}
+    />
+  )
 }
 
 /* Code in this page preloads first page server-side for faster initial render and better SEO. With Client-side pagination still works in PostsList for subsequent pages. */
