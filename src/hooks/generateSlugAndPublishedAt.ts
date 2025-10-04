@@ -11,18 +11,10 @@ const slugify = (s: string) =>
 
 type TagItem = { tag: string }
 
-export const generateSlugAndPublishedAt: CollectionBeforeValidateHook = async ({
-  data = {},
-  operation,
-  originalDoc,
-}) => {
-  // Slug
-  if (data.title && !data.slug) {
+export const generateSlugAndPublishedAt: CollectionBeforeValidateHook = async ({ data = {} }) => {
+  // Always regenerate slug from title
+  if (data.title) {
     data.slug = slugify(data.title)
-  }
-
-  if (operation === 'update' && originalDoc?.slug) {
-    data.slug = originalDoc.slug
   }
 
   // PublishedAt
@@ -31,13 +23,8 @@ export const generateSlugAndPublishedAt: CollectionBeforeValidateHook = async ({
   }
 
   // Tags
-  if (data.tags && Array.isArray(data.tags)) {
-    data.tags = data.tags.map((t: TagItem) => {
-      if (t.tag) {
-        return { tag: slugify(t.tag) }
-      }
-      return t
-    })
+  if (Array.isArray(data.tags)) {
+    data.tags = data.tags.map((t: TagItem) => (t.tag ? { tag: slugify(t.tag) } : t))
   }
 
   // Author

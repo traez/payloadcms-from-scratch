@@ -33,7 +33,7 @@ export const Posts: CollectionConfig = {
       type: 'text',
       unique: true,
       index: true,
-      admin: { position: 'sidebar' },
+      admin: { position: 'sidebar', readOnly: true },
     },
     {
       name: 'excerpt',
@@ -63,6 +63,7 @@ export const Posts: CollectionConfig = {
       defaultValue: undefined,
       admin: {
         position: 'sidebar',
+        readOnly: true,
         date: {
           pickerAppearance: 'dayAndTime',
           displayFormat: 'yyyy-MM-dd HH:mm',
