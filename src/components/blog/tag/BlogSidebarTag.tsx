@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getSortedTags } from '@/lib/getSortedTags'
+import { getSortedTags } from '@/actions/getSortedTags'
 import TagSelect from './TagSelect'
 
 export default async function BlogSidebarTag() {

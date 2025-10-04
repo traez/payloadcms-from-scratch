@@ -1,4 +1,4 @@
-// src/lib/getSortedAuthors.ts
+// src\actions\getSortedAuthors.ts
 'use server'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'

@@ -1,7 +1,7 @@
 // src/app/(frontend)/(pages)/blog/author/page.tsx
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getSortedAuthors } from '@/lib/getSortedAuthors'
+import { getSortedAuthors } from '@/actions/getSortedAuthors'
 
 export const metadata: Metadata = {
   description: 'Browse all blog post authors - Created by Trae Zeeofor',

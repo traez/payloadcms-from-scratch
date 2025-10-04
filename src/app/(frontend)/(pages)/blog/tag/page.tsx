@@ -1,7 +1,7 @@
 // src/app/(frontend)/(pages)/blog/tag/page.tsx - Updated version
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { getSortedTags } from '@/lib/getSortedTags'
+import { getSortedTags } from '@/actions/getSortedTags'
 
 export const metadata: Metadata = {
   description: 'Browse all blog post tags - Created by Trae Zeeofor',

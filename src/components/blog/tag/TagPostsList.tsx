@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Post } from '@/payload-types'
 import { useState } from 'react'
-import { fetchPostsByTag } from '@/lib/actions'
+import { fetchPostsByTag } from '@/actions/fetchPostsByTag'
 
 interface PaginationProps {
   hasPrevPage: boolean
