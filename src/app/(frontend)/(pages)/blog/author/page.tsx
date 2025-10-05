@@ -36,7 +36,7 @@ export default async function Authorpage() {
         {sortedAuthors.map(([author, count]) => (
           <li key={author}>
             <Link
-              href={`/blog/author/${encodeURIComponent(author)}`}
+              href={`/blog/author/${author.toLowerCase().replace(/\s+/g, '-')}`}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition text-sm border hover:border-2 hover:border-black group"
             >
               <span className="font-medium">{author}</span>
