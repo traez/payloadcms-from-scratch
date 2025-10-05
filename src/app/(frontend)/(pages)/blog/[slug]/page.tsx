@@ -1,4 +1,5 @@
 // src/app/(frontend)/(pages)/blog/[slug]/page.tsx
+import Link from 'next/link'
 import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 import config from '@/payload.config'
@@ -47,9 +48,14 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
           {post.author && (
             <div className="flex items-center gap-1">
               <span>By</span>
-              <span className="font-medium text-gray-700 capitalize">
+              <Link
+                href={`/blog/author/${encodeURIComponent(
+                  `${post.author.firstName}-${post.author.lastName}`.toLowerCase(),
+                )}`}
+                className="font-medium text-gray-700 capitalize hover:text-blue-600 transition-colors"
+              >
                 {post.author.firstName} {post.author.lastName}
-              </span>
+              </Link>
             </div>
           )}
 
@@ -84,12 +90,13 @@ export default async function BlogSlugPage({ params }: BlogSlugPageProps) {
         {Array.isArray(post.tags) && post.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 pt-2">
             {post.tags.map((tagItem, index) => (
-              <span
+              <Link
                 key={index}
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
+                href={`/blog/tag/${encodeURIComponent(tagItem?.tag || '')}`}
+                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors"
               >
                 #{tagItem?.tag || 'untitled'}
-              </span>
+              </Link>
             ))}
           </div>
         )}
