@@ -7,6 +7,7 @@ import type {
   SerializedListNode,
   SerializedQuoteNode,
   SerializedParagraphNode,
+  SerializedListItemNode,
 } from '@payloadcms/richtext-lexical'
 import { type JSXConvertersFunction, LinkJSXConverter } from '@payloadcms/richtext-lexical/react'
 import React from 'react'
@@ -21,6 +22,42 @@ interface LexicalTextNode {
   style?: string
   mode?: string
   detail?: number
+}
+
+// Define lexical linebreak node
+interface LexicalLineBreakNode {
+  type: 'linebreak'
+  version: number
+}
+
+// Define lexical link node (inline)
+interface LexicalLinkNode {
+  type: 'link'
+  children: LexicalNode[]
+  fields?: {
+    url?: string
+    newTab?: boolean
+    doc?: {
+      relationTo: string
+      value: number | Record<string, unknown>
+    }
+  }
+  version: number
+}
+
+// Union type for all possible child nodes
+type LexicalNode =
+  | LexicalTextNode
+  | LexicalLineBreakNode
+  | LexicalLinkNode
+  | LexicalNodeWithChildren
+
+// Generic node with children
+interface LexicalNodeWithChildren {
+  type: string
+  children?: LexicalNode[]
+  version: number
+  [key: string]: unknown
 }
 
 // Define your block types based on your Payload config
@@ -49,6 +86,15 @@ interface MediaWithDimensions extends Media {
 // Extend node types to include your custom blocks
 type NodeTypes = DefaultNodeTypes | SerializedBlockNode<ImageBlockType | VideoBlockType>
 
+// Lexical text format constants (bitmask values)
+const IS_BOLD = 1
+const IS_ITALIC = 2
+const IS_STRIKETHROUGH = 4
+const IS_UNDERLINE = 8
+const IS_CODE = 16
+const IS_SUBSCRIPT = 32
+const IS_SUPERSCRIPT = 64
+
 // Type guard for Media with required properties
 function isMediaWithDimensions(media: unknown): media is MediaWithDimensions {
   return (
@@ -65,30 +111,131 @@ function isMediaWithDimensions(media: unknown): media is MediaWithDimensions {
   )
 }
 
-// Helper function to extract text from lexical children
+// Type guard for text node
+function isTextNode(node: unknown): node is LexicalTextNode {
+  return (
+    typeof node === 'object' &&
+    node !== null &&
+    'text' in node &&
+    'type' in node &&
+    (node as LexicalTextNode).type === 'text'
+  )
+}
+
+// Type guard for link node
+function isLinkNode(node: unknown): node is LexicalLinkNode {
+  return (
+    typeof node === 'object' &&
+    node !== null &&
+    'type' in node &&
+    (node as LexicalLinkNode).type === 'link'
+  )
+}
+
+// Type guard for linebreak node
+function isLineBreakNode(node: unknown): node is LexicalLineBreakNode {
+  return (
+    typeof node === 'object' &&
+    node !== null &&
+    'type' in node &&
+    (node as LexicalLineBreakNode).type === 'linebreak'
+  )
+}
+
+// Type guard for node with children
+function hasChildren(node: unknown): node is LexicalNodeWithChildren {
+  return (
+    typeof node === 'object' &&
+    node !== null &&
+    'children' in node &&
+    Array.isArray((node as LexicalNodeWithChildren).children)
+  )
+}
+
+// Helper function to extract text from lexical children (for IDs, etc.)
 function extractTextFromChildren(children: unknown): string {
   if (!Array.isArray(children)) return ''
 
   return children
     .map((child: unknown) => {
-      if (typeof child === 'object' && child !== null && 'text' in child) {
-        return (child as LexicalTextNode).text || ''
+      if (isTextNode(child)) {
+        return child.text || ''
+      }
+      // Recursively extract text from nested children
+      if (hasChildren(child)) {
+        return extractTextFromChildren(child.children)
       }
       return ''
     })
     .join('')
 }
 
-// Helper function to render lexical children
+// Helper function to render lexical children with formatting
 function renderLexicalChildren(children: unknown): React.ReactNode[] {
   if (!Array.isArray(children)) return []
 
   return children.map((child: unknown, index: number) => {
-    if (typeof child === 'object' && child !== null && 'text' in child) {
-      const textChild = child as LexicalTextNode
-      return textChild.text || React.createElement('span', { key: index })
+    // Handle text nodes with formatting
+    if (isTextNode(child)) {
+      let text: React.ReactNode = child.text || ''
+      const format = child.format || 0
+
+      // Apply formatting based on bitmask
+      if (format & IS_BOLD) {
+        text = <b>{text}</b>
+      }
+      if (format & IS_ITALIC) {
+        text = <em>{text}</em>
+      }
+      if (format & IS_STRIKETHROUGH) {
+        text = <s>{text}</s>
+      }
+      if (format & IS_UNDERLINE) {
+        text = <u>{text}</u>
+      }
+      if (format & IS_CODE) {
+        text = (
+          <code className="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-red-600">
+            {text}
+          </code>
+        )
+      }
+      if (format & IS_SUBSCRIPT) {
+        text = <sub>{text}</sub>
+      }
+      if (format & IS_SUPERSCRIPT) {
+        text = <sup>{text}</sup>
+      }
+
+      return <React.Fragment key={index}>{text}</React.Fragment>
     }
-    return React.createElement('span', { key: index })
+
+    // Handle link nodes (inline)
+    if (isLinkNode(child)) {
+      return (
+        <a
+          key={index}
+          href={child.fields?.url || '#'}
+          target={child.fields?.newTab ? '_blank' : undefined}
+          rel={child.fields?.newTab ? 'noopener noreferrer' : undefined}
+          className="text-blue-600 hover:text-blue-800 underline"
+        >
+          {renderLexicalChildren(child.children)}
+        </a>
+      )
+    }
+
+    // Handle linebreak nodes
+    if (isLineBreakNode(child)) {
+      return <br key={index} />
+    }
+
+    // Handle nested children (for complex structures)
+    if (hasChildren(child)) {
+      return <React.Fragment key={index}>{renderLexicalChildren(child.children)}</React.Fragment>
+    }
+
+    return <React.Fragment key={index} />
   })
 }
 
@@ -112,7 +259,7 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   }
 }
 
-// Custom upload converter using Next.js Image - Fixed sizing
+// Custom upload converter using Next.js Image
 const CustomUploadComponent: React.FC<{ node: SerializedUploadNode }> = ({ node }) => {
   const uploadDoc = node.value
 
@@ -140,7 +287,7 @@ const CustomUploadComponent: React.FC<{ node: SerializedUploadNode }> = ({ node 
   )
 }
 
-// Image Block Component - Fixed to use actual dimensions and center
+// Image Block Component
 const ImageBlockComponent: React.FC<{ node: SerializedBlockNode<ImageBlockType> }> = ({ node }) => {
   const { image, caption } = node.fields
 
@@ -175,15 +322,10 @@ const ImageBlockComponent: React.FC<{ node: SerializedBlockNode<ImageBlockType> 
 
 // Improved YouTube URL extraction function
 const getYouTubeVideoId = (url: string): string | null => {
-  // Handle various YouTube URL formats including Shorts
   const patterns = [
-    // Standard watch URLs: https://www.youtube.com/watch?v=VIDEO_ID
     /(?:youtube\.com\/watch\?v=)([a-zA-Z0-9_-]{11})/,
-    // Short URLs: https://youtu.be/VIDEO_ID
     /(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,
-    // Embed URLs: https://www.youtube.com/embed/VIDEO_ID
     /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
-    // Shorts URLs: https://www.youtube.com/shorts/VIDEO_ID
     /(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
   ]
 
@@ -197,7 +339,7 @@ const getYouTubeVideoId = (url: string): string | null => {
   return null
 }
 
-// Video Block Component - Fixed for YouTube Shorts and other formats
+// Video Block Component
 const VideoBlockComponent: React.FC<{ node: SerializedBlockNode<VideoBlockType> }> = ({ node }) => {
   const { url } = node.fields
 
@@ -209,7 +351,6 @@ const VideoBlockComponent: React.FC<{ node: SerializedBlockNode<VideoBlockType> 
   const youtubeId = getYouTubeVideoId(url)
 
   if (youtubeId) {
-    // Create YouTube embed URL
     const embedUrl = `https://www.youtube.com/embed/${youtubeId}`
 
     return (
@@ -228,7 +369,7 @@ const VideoBlockComponent: React.FC<{ node: SerializedBlockNode<VideoBlockType> 
     )
   }
 
-  // Handle other video platforms or direct video URLs
+  // Handle direct video URLs
   const isDirectVideo = url.match(/\.(mp4|webm|ogg|mov|avi|mkv)$/i)
 
   if (isDirectVideo) {
@@ -246,7 +387,7 @@ const VideoBlockComponent: React.FC<{ node: SerializedBlockNode<VideoBlockType> 
     )
   }
 
-  // For other platforms (Vimeo, etc.) - you can extend this
+  // Handle Vimeo
   const vimeoMatch = url.match(/(?:vimeo\.com\/)(\d+)/)
   if (vimeoMatch && vimeoMatch[1]) {
     const vimeoId = vimeoMatch[1]
@@ -321,6 +462,13 @@ const headingConverter = {
   },
 }
 
+// Define code node interface
+interface SerializedCodeNode {
+  type: 'code'
+  children: LexicalNode[]
+  version: number
+}
+
 // Main converter function
 export const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
@@ -328,17 +476,18 @@ export const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConvert
   ...LinkJSXConverter({ internalDocToHref }),
   // Custom heading converter
   ...headingConverter,
-  // Override upload converter - Fixed sizing
+  // Override upload converter
   upload: ({ node }) => <CustomUploadComponent node={node} />,
-  // Custom blocks - Use correct block slugs with fixed sizing
+  // Custom blocks
   blocks: {
     image: ({ node }) => <ImageBlockComponent node={node} />,
     video: ({ node }) => <VideoBlockComponent node={node} />,
   },
-  // Add custom styling to other elements
+  // Paragraph styling
   paragraph: ({ node }: { node: SerializedParagraphNode }) => (
     <p className="mb-4 leading-relaxed text-gray-800">{renderLexicalChildren(node.children)}</p>
   ),
+  // Improved list rendering - properly handles formatted text in list items
   list: ({ node }: { node: SerializedListNode }) => {
     const tag = node.tag as 'ul' | 'ol'
     const className =
@@ -347,20 +496,37 @@ export const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConvert
         : 'list-decimal list-inside mb-4 ml-4 space-y-1'
 
     const children = Array.isArray(node.children)
-      ? node.children.map((child: unknown, index: number) => {
-          const textContent =
-            typeof child === 'object' && child !== null && 'text' in child
-              ? (child as LexicalTextNode).text
-              : ''
-          return React.createElement('li', { key: index, className: 'text-gray-800' }, textContent)
+      ? node.children.map((child, index: number) => {
+          // Type assertion since we know list children should be list items
+          const listItem = child as SerializedListItemNode
+
+          // Each child should be a listitem node with its own children
+          if (listItem.type === 'listitem' && listItem.children) {
+            return React.createElement(
+              'li',
+              { key: index, className: 'text-gray-800' },
+              renderLexicalChildren(listItem.children),
+            )
+          }
+          // Fallback for unexpected structure
+          return React.createElement('li', { key: index, className: 'text-gray-800' }, '')
         })
       : []
 
     return React.createElement(tag, { className }, children)
   },
+  // Quote styling
   quote: ({ node }: { node: SerializedQuoteNode }) => (
     <blockquote className="border-l-4 border-blue-500 pl-4 py-2 mb-4 italic text-gray-700 bg-gray-50 rounded-r">
       {renderLexicalChildren(node.children)}
     </blockquote>
+  ),
+  // Line break support
+  linebreak: () => <br />,
+  // Code block support (if you use code blocks in your editor)
+  code: ({ node }: { node: SerializedCodeNode }) => (
+    <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4 text-sm">
+      <code>{extractTextFromChildren(node.children)}</code>
+    </pre>
   ),
 })
