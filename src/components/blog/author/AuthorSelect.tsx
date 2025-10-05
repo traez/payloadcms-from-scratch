@@ -11,9 +11,10 @@ export default function AuthorSelect({ authors }: AuthorSelectProps) {
   const pathname = usePathname()
 
   // Determine default selected value
-  const defaultValue = pathname?.startsWith('/blog/author')
-    ? decodeURIComponent(pathname.split('/blog/author/')[1].replace('-', ' '))
-    : ''
+  const defaultValue =
+    pathname?.startsWith('/blog/author') && pathname.split('/blog/author/')[1]
+      ? decodeURIComponent(pathname.split('/blog/author/')[1].replace(/-/g, ' '))
+      : ''
 
   const handleAuthorSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedAuthor = event.target.value
