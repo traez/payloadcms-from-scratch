@@ -1,5 +1,6 @@
+//src\components\blog\tag\TagSelect.tsx
 'use client'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 
 interface TagSelectProps {
   tags: [string, number][]
@@ -7,6 +8,12 @@ interface TagSelectProps {
 
 export default function TagSelect({ tags }: TagSelectProps) {
   const router = useRouter()
+  const pathname = usePathname()
+
+  // Determine default selected value
+  const defaultValue = pathname?.startsWith('/blog/tag')
+    ? decodeURIComponent(pathname.split('/blog/tag/')[1])
+    : ''
 
   const handleTagSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedTag = event.target.value
@@ -16,7 +23,11 @@ export default function TagSelect({ tags }: TagSelectProps) {
   }
 
   return (
-    <select className="border rounded px-3 py-2 w-full" onChange={handleTagSelect} defaultValue="">
+    <select
+      className="border rounded px-3 py-2 w-full"
+      onChange={handleTagSelect}
+      value={defaultValue}
+    >
       <option value="">Select Tag</option>
       {tags.map(([tag, count]) => (
         <option key={tag} value={tag}>

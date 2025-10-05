@@ -1,5 +1,7 @@
+//src\components\blog\BlogSidebar.tsx
 import Link from 'next/link'
 import BlogSidebarTag from '@/components/blog/tag/BlogSidebarTag'
+import BlogSidebarAuthor from '@/components/blog/author/BlogSidebarAuthor'
 
 export default function BlogSidebar() {
   return (
@@ -8,19 +10,7 @@ export default function BlogSidebar() {
       <BlogSidebarTag />
 
       {/* Author */}
-      <aside className="flex flex-col gap-2">
-        <Link
-          href="/blog/author"
-          className="px-3 py-2 rounded text-center bg-green-500 text-white hover:bg-green-600"
-        >
-          Author Home
-        </Link>
-        <select className="border rounded px-3 py-2 w-full">
-          <option value="">Select Author</option>
-          <option value="john">John Abel</option>
-          <option value="jane">Jane Smith</option>
-        </select>
-      </aside>
+      <BlogSidebarAuthor />
 
       {/* Date */}
       <aside className="flex flex-col gap-2">

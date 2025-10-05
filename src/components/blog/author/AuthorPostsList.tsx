@@ -186,7 +186,7 @@ export default function AuthorPostsList({
           </p>
 
           {post.author && (
-            <p className="text-sm text-gray-600 mb-1 capitalize font-semibold text-blue-600">
+            <p className="text-sm mb-1 capitalize font-semibold text-blue-600">
               By {post.author.firstName} {post.author.lastName}
             </p>
           )}
