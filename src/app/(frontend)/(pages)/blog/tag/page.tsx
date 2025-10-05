@@ -1,4 +1,4 @@
-// src/app/(frontend)/(pages)/blog/tag/page.tsx - Updated version
+// src/app/(frontend)/(pages)/blog/tag/page.tsx 
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getSortedTags } from '@/actions/getSortedTags'
