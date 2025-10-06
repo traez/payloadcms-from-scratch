@@ -276,12 +276,8 @@ const CustomUploadComponent: React.FC<{ node: SerializedUploadNode }> = ({ node 
         src={url}
         width={width}
         height={height}
-        className="rounded-lg shadow-lg"
-        style={{
-          width: 'auto',
-          height: 'auto',
-          maxWidth: '100%',
-        }}
+        className="rounded-lg shadow-lg max-w-full h-auto"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1024px"
       />
     </div>
   )
@@ -304,12 +300,8 @@ const ImageBlockComponent: React.FC<{ node: SerializedBlockNode<ImageBlockType> 
         src={url}
         width={width}
         height={height}
-        className="rounded-lg shadow-lg"
-        style={{
-          width: 'auto',
-          height: 'auto',
-          maxWidth: '100%',
-        }}
+        className="rounded-lg shadow-lg max-w-full h-auto"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1024px"
       />
       {caption && (
         <figcaption className="mt-2 text-sm text-gray-600 text-center italic max-w-lg">

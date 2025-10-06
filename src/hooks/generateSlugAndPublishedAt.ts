@@ -5,9 +5,11 @@ const slugify = (s: string) =>
   s
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
+    .replace(/[^a-z0-9\s-]/g, '') // allow only letters, numbers, spaces, hyphens
+    .replace(/\s+/g, '-') // replace spaces with hyphens
+    .replace(/-+/g, '-') // collapse multiple hyphens
+    .replace(/^-+/, '') // remove leading hyphens
+    .replace(/-+$/, '') // remove trailing hyphens
 
 type TagItem = { tag: string }
 
