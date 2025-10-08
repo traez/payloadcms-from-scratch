@@ -1,6 +1,8 @@
-//src\components\blog\date\DateSelect.tsx
+// src/components/blog/date/DateSelect.tsx
 'use client'
-import { useRouter, usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
+import { useRouter } from 'nextjs-toploader/app'
 
 interface DateSelectProps {
   dates: { key: string; label: string; count: number }[]
@@ -10,16 +12,24 @@ export default function DateSelect({ dates }: DateSelectProps) {
   const router = useRouter()
   const pathname = usePathname()
 
-  // Determine default selected value from URL (e.g., /blog/date/2025-oct)
-  const defaultValue =
-    pathname?.startsWith('/blog/date') && pathname.split('/blog/date/')[1]
-      ? decodeURIComponent(pathname.split('/blog/date/')[1])
-      : ''
+  // Get date key from current route
+  const currentDate = pathname?.startsWith('/blog/date/')
+    ? decodeURIComponent(pathname.split('/blog/date/')[1])
+    : ''
+
+  // Track local selection for instant UI updates
+  const [selectedDate, setSelectedDate] = useState(currentDate)
+
+  // Sync with route if user navigates by other means
+  useEffect(() => {
+    setSelectedDate(currentDate)
+  }, [currentDate])
 
   const handleDateSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedDate = event.target.value
-    if (selectedDate) {
-      router.push(`/blog/date/${encodeURIComponent(selectedDate)}`)
+    const newDate = event.target.value
+    setSelectedDate(newDate) // instant feedback
+    if (newDate) {
+      router.push(`/blog/date/${encodeURIComponent(newDate)}`)
     }
   }
 
@@ -27,7 +37,7 @@ export default function DateSelect({ dates }: DateSelectProps) {
     <select
       className="border rounded px-3 py-2 w-full"
       onChange={handleDateSelect}
-      value={defaultValue}
+      value={selectedDate}
     >
       <option value="">Select Date</option>
       {dates.map(({ key, label, count }) => (

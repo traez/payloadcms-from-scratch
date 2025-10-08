@@ -1,6 +1,8 @@
 //src\components\blog\tag\TagSelect.tsx
 'use client'
-import { useRouter, usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
+import { useRouter } from 'nextjs-toploader/app'
 
 interface TagSelectProps {
   tags: [string, number][]
@@ -10,15 +12,24 @@ export default function TagSelect({ tags }: TagSelectProps) {
   const router = useRouter()
   const pathname = usePathname()
 
-  // Determine default selected value
-  const defaultValue = pathname?.startsWith('/blog/tag')
+  // Get tag from current route
+  const currentTag = pathname?.startsWith('/blog/tag/')
     ? decodeURIComponent(pathname.split('/blog/tag/')[1])
     : ''
 
+  // Track local selection for instant UI updates
+  const [selectedTag, setSelectedTag] = useState(currentTag)
+
+  // Sync with route if user navigates by other means
+  useEffect(() => {
+    setSelectedTag(currentTag)
+  }, [currentTag])
+
   const handleTagSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedTag = event.target.value
-    if (selectedTag) {
-      router.push(`/blog/tag/${encodeURIComponent(selectedTag)}`)
+    const newTag = event.target.value
+    setSelectedTag(newTag) // instant visual feedback
+    if (newTag) {
+      router.push(`/blog/tag/${encodeURIComponent(newTag)}`)
     }
   }
 
@@ -26,7 +37,7 @@ export default function TagSelect({ tags }: TagSelectProps) {
     <select
       className="border rounded px-3 py-2 w-full"
       onChange={handleTagSelect}
-      value={defaultValue}
+      value={selectedTag}
     >
       <option value="">Select Tag</option>
       {tags.map(([tag, count]) => (
