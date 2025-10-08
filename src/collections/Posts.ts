@@ -16,7 +16,7 @@ export const Posts: CollectionConfig = {
     defaultColumns: ['title', 'published', 'publishedAt', 'updatedAt'],
   },
   access: {
-    read: () => true,
+    read: () => true, //setting to read: viewer, would mean ean only logged in users(viewers) can view
     update: editor,
     create: admin,
     delete: admin,
