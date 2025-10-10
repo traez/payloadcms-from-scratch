@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: DateSlugPageProps) {
   const postCount = res.totalDocs
 
   return {
-    title: `${dateSlug} - Blog - Payload From Scratch`,
+    title: `${dateSlug} - Blog - PayloadCMS From Scratch`,
     description: `Browse ${postCount} blog post${postCount !== 1 ? 's' : ''} published in ${dateSlug}.`,
     keywords: dateSlug,
   }

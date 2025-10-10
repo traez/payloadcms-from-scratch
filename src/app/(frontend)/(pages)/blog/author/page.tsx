@@ -5,7 +5,7 @@ import { getSortedAuthors } from '@/actions/getSortedAuthors'
 
 export const metadata: Metadata = {
   description: 'Browse all blog post authors - Created by Trae Zeeofor',
-  title: 'All Authors - Blog - Payload From Scratch',
+  title: 'All Authors - Blog - PayloadCMS From Scratch',
 }
 
 export default async function Authorpage() {

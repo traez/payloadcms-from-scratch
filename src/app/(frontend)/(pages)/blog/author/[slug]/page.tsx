@@ -89,7 +89,7 @@ export async function generateMetadata({ params }: AuthorSlugPageProps) {
     .join(' ')
 
   return {
-    title: `${displayName} - Author - Blog - Payload From Scratch`,
+    title: `${displayName} - Author - Blog - PayloadCMS From Scratch`,
     description: `Browse ${postCount} blog post${postCount !== 1 ? 's' : ''} written by ${displayName}. Discover articles and insights from this author.`,
     keywords: `${displayName}, author, blog posts`,
   }

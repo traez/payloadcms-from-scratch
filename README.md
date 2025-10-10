@@ -1,6 +1,6 @@
-# Myxellia Figma take home test
+# PayloadCMS From Scratch
 
-Myxellia Front End Engineer Figma take home assessment test
+Attempts at creating working PayloadCMS prototype for freelancing
 
 ## Table of contents
 

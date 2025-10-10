@@ -80,7 +80,7 @@ export async function generateMetadata({ params }: TagSlugPageProps) {
   const postCount = res.totalDocs
 
   return {
-    title: `${decodedTag} Tag - Blog - Payload From Scratch`,
+    title: `${decodedTag} Tag - Blog - PayloadCMS From Scratch`,
     description: `Browse ${postCount} blog post${postCount !== 1 ? 's' : ''} tagged with "${decodedTag}". Discover articles and insights on this topic.`,
     keywords: decodedTag,
   }

@@ -135,7 +135,7 @@ export async function generateMetadata({ params }: BlogSlugPageProps) {
   const post: Post = res.docs[0]
 
   return {
-    title: `${post.title}: Blog - Payload From Scratch`,
+    title: `${post.title}: Blog - PayloadCMS From Scratch`,
     description:
       post.excerpt || `Read ${post.title} by ${post.author?.firstName} ${post.author.lastName}`,
     authors: post.author

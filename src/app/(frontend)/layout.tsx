@@ -7,7 +7,7 @@ import NextJsTopLoader from '@/lib/NextJsTopLoader'
 
 export const metadata = {
   description: 'Created by Trae Zeeofor',
-  title: 'Payload From Scratch',
+  title: 'PayloadCMS From Scratch',
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

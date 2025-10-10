@@ -29,7 +29,7 @@ export default function Header() {
             href="/"
             className="text-[20px] sm:text-2xl font-semibold whitespace-nowrap hover:text-blue-600 transition-colors"
           >
-            Payload From Scratch
+            PayloadCMS From Scratch
           </Link>
 
           {/* Mobile Menu Button - Using Sheet */}
@@ -60,7 +60,7 @@ export default function Header() {
                     onClick={() => setIsModalOpen(false)}
                     className="text-[20px] sm:text-2xl font-semibold whitespace-nowrap hover:text-blue-600 transition-colors"
                   >
-                    Payload From Scratch2
+                    PayloadCMS From Scratch
                   </Link>
                   <Button
                     variant="ghost"

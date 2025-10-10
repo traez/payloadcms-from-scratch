@@ -5,7 +5,7 @@ import BlogSidebar from '@/components/blog/BlogSidebar'
 
 export const metadata: Metadata = {
   description: 'Created by Trae Zeeofor',
-  title: 'Blog - Payload From Scratch',
+  title: 'Blog - PayloadCMS From Scratch',
 }
 
 export default function BlogLayout({ children }: { children: ReactNode }) {

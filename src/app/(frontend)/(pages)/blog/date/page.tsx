@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { getSortedDates } from '@/actions/getSortedDates'
 
 export const metadata: Metadata = {
-  title: 'All Dates - Blog - Payload From Scratch',
+  title: 'All Dates - Blog - PayloadCMS From Scratch',
   description: 'Browse blog posts by publication date - Created by Trae Zeeofor',
 }
 

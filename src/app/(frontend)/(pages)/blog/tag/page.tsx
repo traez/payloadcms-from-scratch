@@ -5,7 +5,7 @@ import { getSortedTags } from '@/actions/getSortedTags'
 
 export const metadata: Metadata = {
   description: 'Browse all blog post tags - Created by Trae Zeeofor',
-  title: 'All Tags - Blog - Payload From Scratch',
+  title: 'All Tags - Blog - PayloadCMS From Scratch',
 }
 
 export default async function Tagpage() {
